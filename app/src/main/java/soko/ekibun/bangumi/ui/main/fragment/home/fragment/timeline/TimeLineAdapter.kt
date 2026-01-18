@@ -101,6 +101,9 @@ class TimeLineAdapter(data: MutableList<TimeLine>? = null) :
             }
         }
 
+        val isPureSay = item.t?.let { t -> //新增细分来判断是单纯的吐槽还是条目吐槽,判断条件：是否有条目图片
+            t.say != null && t.thumbs.isEmpty()
+        } ?: false
         holder.itemView.item_layout.isClickable = item.t?.say != null
         holder.itemView.item_dolike.visibility = if(holder.itemView.item_layout.isClickable) View.VISIBLE else View.INVISIBLE
         holder.itemView.item_dolike.setOnClickListener { v ->
@@ -150,7 +153,7 @@ class TimeLineAdapter(data: MutableList<TimeLine>? = null) :
         //action
         holder.itemView.item_action.text = HtmlUtil.html2span(item.t?.action ?: "")
         holder.itemView.item_action.movementMethod =
-            if (holder.itemView.item_layout.isClickable) null else LinkMovementMethod.getInstance()
+            if (isPureSay) null else LinkMovementMethod.getInstance()
         //del
         holder.itemView.item_del.visibility = if (item.t?.delUrl.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
         holder.itemView.item_del.setOnClickListener {

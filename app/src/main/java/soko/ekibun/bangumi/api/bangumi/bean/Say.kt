@@ -88,6 +88,7 @@ data class Say(
                             user.avatar = user.avatar ?: "https://api.bgm.tv/v0/users/${user.username}/avatar?type=large"
                             say.user = user
                             say.message = doc.selectFirst(".statusContent .text")?.html()
+                                        ?: doc.selectFirst(".statusContent .comment")?.html()
                             say.time = doc.selectFirst(".statusContent .date")?.text()
                             withContext(Dispatchers.Main) { onUpdateSay(SayReply(say.user, say.message ?: "", 0)) }
                         }

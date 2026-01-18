@@ -116,7 +116,7 @@ class TimeLine(override val isHeader: Boolean) : SectionEntity {
                             collectStar = Regex("""stars([0-9]*)""").find(
                                 item.selectFirst(".starlight")?.outerHtml() ?: ""
                             )?.groupValues?.get(1)?.toIntOrNull() ?: 0,
-                            thumbs = item.select("$cssInfo img").map {
+                            thumbs = item.select(".cover img").map {//排除表情
                                 val url = it.parent().attr("href")
                                 TimeLineItem.ThumbItem(
                                     image = Bangumi.parseImageUrl(it),
